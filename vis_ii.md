@@ -110,3 +110,27 @@ weather_df %>%
     ## Warning: Removed 15 rows containing missing values (geom_point).
 
 ![](vis_ii_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
+## Scales
+
+Start with the same plot
+
+``` r
+weather_df %>%
+  ggplot(aes(x = tmin, y = tmax, color = name)) +
+  geom_point(alpha = .5) +
+  labs(
+    title = "Temperture plot",
+    x = "Minimum daily temperture (C)",
+    y = "Maximum daily temperture (C)",
+    caption = "Data from rnoaa pachage; tempertures in 2017"
+  ) +
+  scale_x_continuous(
+    breaks = c(-15, 0, 15), 
+    labels = c("-15º C", "0", "15")
+  )
+```
+
+    ## Warning: Removed 15 rows containing missing values (geom_point).
+
+![](vis_ii_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
