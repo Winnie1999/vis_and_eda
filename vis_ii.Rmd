@@ -7,6 +7,7 @@ output: github_document
 ```{r setup}
 library(tidyverse)
 library(patchwork)
+library(viridis)
 ```
 
 ## Load the weather data
@@ -48,7 +49,7 @@ weather_df %>%
     title = "Temperture plot",
     x = "Minimum daily temperture (C)",
     y = "Maximum daily temperture (C)",
-    caption = "Data from rnoaa pachage; tempertures in 2017"
+    caption = "Data from rnoaa pachage with three stations; tempertures in 2017"
   )
 ```
 
@@ -69,6 +70,74 @@ weather_df %>%
   scale_x_continuous(
     breaks = c(-15, 0, 15), 
     labels = c("-15º C", "0", "15")
+  ) +
+  scale_y_continuous(
+    trans = "sqrt",
+    position = "right"
   )
 ```
+
+Colors
+
+```{r}
+weather_df %>% 
+  ggplot(aes(x = tmin, y = tmax)) + 
+  geom_point(aes(color = name), alpha = .5) + 
+  labs(
+    title = "Temperature plot",
+    x = "Minimum daily temperature (C)",
+    y = "Maxiumum daily temperature (C)",
+    caption = "Data from the rnoaa package") + 
+  scale_x_continuous(
+    breaks = c(-15, 0, 15), 
+    labels = c("-15ºC", "0", "15"),
+    limits = c(-20, 30)) + 
+  scale_y_continuous(
+    trans = "sqrt", 
+    position = "right") +
+  scale_color_hue(name = "Location", h = c(100, 300))
+```
+
+## viridis pacakge
+
+```{r}
+ggp_temp_plot = 
+  weather_df %>% 
+  ggplot(aes(x = tmin, y = tmax)) + 
+  geom_point(aes(color = name), alpha = .5) + 
+  labs(
+    title = "Temperature plot",
+    x = "Minimum daily temperature (C)",
+    y = "Maxiumum daily temperature (C)",
+    caption = "Data from the rnoaa package"
+  ) + 
+  viridis::scale_color_viridis(
+    name = "Location", 
+    discrete = TRUE
+  )
+
+ggp_temp_plot
+```
+
+## Themes
+
+```{r}
+weather_df %>% 
+  ggplot(aes(x = tmin, y = tmax)) + 
+  geom_point(aes(color = name), alpha = .5) + 
+  labs(
+    title = "Temperature plot",
+    x = "Minimum daily temperature (C)",
+    y = "Maxiumum daily temperature (C)",
+    caption = "Data from the rnoaa package"
+  ) + 
+  scale_color_viridis_d() +
+  theme_minimal() +
+  ##ggthemes::theme_excel() + ##order matters, the overall theme would change to default theme settings
+  theme(legend.position = "bottom")
+    
+```
+
+
+
 
