@@ -164,7 +164,7 @@ weather_df %>%
 #for each of these columns, use summarize()
 ```
 
-REminder: sometimes your results are easier to read in another format.
+Reminder: sometimes your results are easier to read in another format.
 
 ```{r}
 weather_df %>% 
@@ -177,6 +177,42 @@ weather_df %>%
   knitr::kable(digits = 1)
 ```
 
+## group_by and mutate
 
+```{r}
+weather_df %>% 
+  group_by(name) %>% 
+  mutate(
+    mean_tmax = mean(tmax, na.rm = TRUE),
+    centered_tmax = tmax - mean_tmax
+  ) %>% 
+  ggplot(aes(x = date, y = centered_tmax, color = name)) +
+  geom_point()
+```
 
+what about window functions
+
+ranking
+
+```{r}
+weather_df %>% 
+  group_by(name, month) %>% 
+  mutate(temp_rank = min_rank(tmax)) %>% 
+  # mutate(temp_rank = min_rank(desc(tmax))) rank in descending
+  filter(temp_rank == 1)
+```
+
+lag:
+Find the "previous" (lag()) or "next" (lead()) values in a vector. Useful for comparing values behind of or ahead of the current values.
+
+```{r}
+weather_df %>% 
+  group_by(name) %>% 
+  #mutate(lag_temp = lag(tmax))
+  mutate(temp_change = tmax - lag(tmax)) %>% 
+  summarize(
+    temp_change_max = max(temp_change, na.rm = TRUE),
+    temp_change_sd = sd(temp_change, na.rm = TRUE)
+  )
+```
 
