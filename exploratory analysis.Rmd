@@ -50,8 +50,7 @@ weather_df
 
 ```{r}
 weather_df %>% 
-  group_by(name,month) %>% 
-  #ungroup(month)
+  group_by(name,month)
 ```
 
 
