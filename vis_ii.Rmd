@@ -258,7 +258,7 @@ pulse_df =
 ggplot(pulse_df, aes(x = visit, y = bdi)) + 
   geom_boxplot() ##+
   ##geom_point(size = .2) +
-  ##geom_line(aes(group = id))
+  ##geom_line(aes(group = id), alpha = .3)
 ```
 
 
