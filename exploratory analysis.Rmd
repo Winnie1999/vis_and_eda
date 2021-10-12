@@ -80,8 +80,15 @@ weather_df %>%
 # not a data frame
 ```
 
+other helpful counters
 
+```{r}
+weather_df %>%
+  group_by(month) %>% 
+  summarize(
+    n_obs = n(),
+    n_days = n_distinct(date))
 
-
+```
 
 
